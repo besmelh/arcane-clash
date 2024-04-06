@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
             if (enemy.isSpawned == false && enemy.spawnTime <= Time.time)
             {
                 // Instantiate the chosen enemy type, at the chosen spawn location
-                Instantiate(enemiesPrefabs[(int)enemy.enemyType], transform.GetChild(enemy.Spawner).transform);
+                GameObject enemyInstance = Instantiate(enemiesPrefabs[(int)enemy.enemyType], transform.GetChild(enemy.spawner).transform);
                 enemy.isSpawned = true;
             }
         }

@@ -8,8 +8,8 @@ public class Enemy
 {
     public int spawnTime;
     public EnemyType enemyType;
-    public int Spawner; //choose one of the 5 lanes
-    public bool RandomSpawner; //choose a random lane
+    public int spawner; //choose one of the 5 lanes
+    public bool randomSpawner; //choose a random lane
     public bool isSpawned;
 }
 
