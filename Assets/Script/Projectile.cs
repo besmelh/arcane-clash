@@ -24,13 +24,15 @@ public class Projectile : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            // destroy enemy and projectile
-            Destroy(other.gameObject);
-            Destroy(gameObject);
+            // destroy enemy
+            //Destroy(other.gameObject);
+
+            // destroy projectile
+            //Destroy(gameObject);
 
             //update enemy HP
             // for testing - updating score
-            pointManager.UpdateScore(50);
+            //pointManager.UpdateScore(50);
         }
         else if (other.gameObject.tag == "Boundary")
         {

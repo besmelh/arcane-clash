@@ -6,13 +6,22 @@ public class EnemyController : MonoBehaviour
 {
 
     //public Vector3 finalDestination;
-    public int health; // between 0 and 100
-    public int damage; // between 0 and 100
-    public float movementSpeed; // between 0 and 1
-    private PointManager pointManager;
+    public int health; // current health
+    public int maxHealth; // max possible health
+    public int damage; // damage strength it causes to player
+    public float movementSpeed; // speed at which it moves
+    private PointManager pointManager; //manages the HP points of the player
+    [SerializeField] FloatingHealthBar healthBar;
+
+    private void Awake()
+    {
+        healthBar = GetComponentInChildren<FloatingHealthBar>();   
+    }
 
     void Start()
     {
+        health = maxHealth;
+        healthBar.UpdateHealthBar(health, maxHealth);
         //since pointManager is only created on game start, link to that instance after game start
         pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
     }
@@ -27,19 +36,30 @@ public class EnemyController : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("Player hit!");
-            // destroy enemy and projectile
-            //Destroy(other.gameObject);
-            //Destroy(gameObject);
+            //update player HP - hitting player directly results in extra damage
+            //pointManager.UpdateScore(-25);
+        }
+        if (other.gameObject.tag == "Projectile")
+        {
+            // destroy projectile
+            Destroy(other.gameObject);
 
-            //update enemy HP
-            // for testing - updating score
-            pointManager.UpdateScore(-25);
+            // reduce health
+            health = health - 10;
+            healthBar.UpdateHealthBar(health, maxHealth);
+
+            // delete if no health remaining
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
         else if (other.gameObject.tag == "Boundary")
         {
-            // prevent endless projectiles from remaining in game
+            // prevent endless enemies from remaining in game
             Destroy(gameObject);
+
+            //update player HP ones enemy reaches end of track
             pointManager.UpdateScore(-25);
         }
     }

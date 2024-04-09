@@ -20,7 +20,7 @@ public class PointManager : MonoBehaviour
     }
 
     public void UpdateScore(int points)
-    {
+    { 
         hp += points;
         hpText.text = "HP: " + hp;
     }
