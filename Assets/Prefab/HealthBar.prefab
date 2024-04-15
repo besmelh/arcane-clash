@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 5694179370378701741}
+  fillImage: {fileID: 6990639530933837115}
 --- !u!1 &1291889855805626764
 GameObject:
   m_ObjectHideFlags: 0

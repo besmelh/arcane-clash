@@ -1,35 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class EnemyController : MonoBehaviour
 {
 
     //public Vector3 finalDestination;
-    public int health; // current health
+    private int health; // current health
     public int maxHealth; // max possible health
-    public int damage; // damage strength it causes to player
-    public float movementSpeed; // speed at which it moves
-    private PointManager pointManager; //manages the HP points of the player
+    public int damageToPlayer; // damage strength it causes to player
+    public float originalSpeed; // speed at which it normaly moves
+    public Color normalHealthbarColor;
+    public Color frozenHealthbarColor;
+    private float currentSpeed; // speed at which it moves currently
+    //private PointManager pointManager; //manages the HP points of the player
+    private PlayerController playerController; //manages the HP points of the player
     [SerializeField] FloatingHealthBar healthBar;
 
     private void Awake()
     {
-        healthBar = GetComponentInChildren<FloatingHealthBar>();   
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+
+        // Set the default value of Healthbar colors
+        ColorUtility.TryParseHtmlString("#4ECF4D", out normalHealthbarColor);
+        ColorUtility.TryParseHtmlString("#00F2FF", out frozenHealthbarColor);
     }
 
     void Start()
     {
+        currentSpeed = originalSpeed;
         health = maxHealth;
         healthBar.UpdateHealthBar(health, maxHealth);
-        //since pointManager is only created on game start, link to that instance after game start
-        pointManager = GameObject.Find("PointManager").GetComponent<PointManager>();
+        healthBar.ChangeHealthBarColor(normalHealthbarColor);
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     void Update()
     {
-        //transform.Translate(new Vector3(0, 0, movementSpeed * -1));
-        transform.Translate(Vector3.back * movementSpeed * Time.deltaTime);
+        transform.Translate(Vector3.back * currentSpeed * Time.deltaTime);
     }
 
     public void UpdateHealth(int damage)
@@ -45,6 +55,32 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SlowDown(float slowingImpact, float slowingDuration)
+    {
+        // set new reduced speed -- make sure it's not less than 0.05
+        currentSpeed = Math.Max(0.1f, currentSpeed - slowingImpact);
+
+        // change health bar color
+        healthBar.ChangeHealthBarColor(frozenHealthbarColor);
+
+        // return speed and health bar color back to normal after a while
+        StartCoroutine(ReturnSpeedToNormal(slowingImpact, slowingDuration));
+
+    }
+
+    private IEnumerator ReturnSpeedToNormal(float slowingImpact, float slowingDuration)
+    {
+        yield return new WaitForSeconds(slowingDuration);
+
+        // add back the speed that was decreased
+        // this is implemented because multiple shots will add up 
+        // shouldn't happen, but ensure that the original speed is not exceeded
+        currentSpeed = Math.Min(originalSpeed, currentSpeed + slowingImpact);
+
+        // change health bar color to normal
+        healthBar.ChangeHealthBarColor(normalHealthbarColor);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,7 +111,7 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
 
             //update player HP ones enemy reaches end of track
-            pointManager.UpdateScore(-25);
+            playerController.UpdateHealth(-damageToPlayer);
         }
     }
 

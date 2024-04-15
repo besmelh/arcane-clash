@@ -83,8 +83,8 @@ MonoBehaviour:
   movementSpeed: 5
   damage: 1
   isAOE: 0
+  aoeRadius: 0
   slowingImpact: 0
-  rateOfFire: 0
 --- !u!1 &6753668471879941778
 GameObject:
   m_ObjectHideFlags: 0

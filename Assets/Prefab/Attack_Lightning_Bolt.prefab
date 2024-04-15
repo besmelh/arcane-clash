@@ -49,8 +49,8 @@ MonoBehaviour:
   movementSpeed: 5
   damage: 4
   isAOE: 0
+  aoeRadius: 0
   slowingImpact: 0
-  rateOfFire: 0
 --- !u!65 &8405186731933250769
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -195,5 +195,5 @@ MonoBehaviour:
   movementSpeed: 5
   damage: 4
   isAOE: 0
+  aoeRadius: 2
   slowingImpact: 0
-  rateOfFire: 0

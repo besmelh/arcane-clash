@@ -5,14 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public int health;
-    public int damage; 
+    private int health;
+    public int maxHealth;
+    //public int damage; 
     public float movementSpeed = 2;
-    public float horInput;
-    // Start is called before the first frame update
+    private float horInput;
+    [SerializeField] FloatingHealthBar healthBar;
+
+
     void Start()
     {
-        
+        health = maxHealth;
+        healthBar.UpdateHealthBar(health, maxHealth);
     }
 
     // Update is called once per frame
@@ -20,5 +24,20 @@ public class PlayerController : MonoBehaviour
     {
         horInput = Input.GetAxisRaw("Horizontal");
         transform.Translate(Vector3.right * horInput * movementSpeed * Time.deltaTime);
+    }
+
+    public void UpdateHealth(int healthDifference)
+    {
+        // reduce or increase health
+        health = health + healthDifference;
+
+        // update health bar
+        healthBar.UpdateHealthBar(health, maxHealth);
+
+        // end game if health 0
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

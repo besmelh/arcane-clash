@@ -7,15 +7,16 @@ public class FloatingHealthBar : MonoBehaviour
 {
 
     [SerializeField] private Slider slider;
+    [SerializeField] private Image fillImage;
 
     public void UpdateHealthBar(float currentValue, float maxValue)
     {
         slider.value = currentValue / maxValue;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeHealthBarColor(Color color)
     {
-        
+        fillImage.color = color;
     }
+
 }

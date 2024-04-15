@@ -9,13 +9,19 @@ public class AttackController : MonoBehaviour
     //private PointManager pointManager;
     public int damage; // damage amount it causes to enemy
     public bool isAOE; // true if it's an area of effect attack
-    public int slowingImpact; // degree that it slows the enemy by, 0 if doesn't slow it
-    public int rateOfFire; // how often it can be fired
+    public float aoeRadius = 2f; // true if it's an area of effect attack
+    public float slowingImpact; // degree that it slows the enemy by, 0 if doesn't slow it
 
-    // Start is called before the first frame update
+    //public float rateOfFire; // how often it can be fired in seconds
+    //private float nextFireTime; // Time when the attack can be fired again
+
+    //public GameObject aoeVisualizerPrefab; // Reference to the AOE visualizer prefab
+    //public float aoeVisualizerDuration = 0.5f; // Duration for which the AOE visualizer remains visible
+
+
     void Start()
     {
-
+        //nextFireTime = 0f;
     }
 
     // Update is called once per frame
@@ -23,26 +29,99 @@ public class AttackController : MonoBehaviour
     {
         // move attack projectile
         transform.Translate(transform.forward * movementSpeed * Time.deltaTime);
+
+        // Check if the attack can be fired again
+        //if (Time.time >= nextFireTime)
+        //{
+        //    // Update the next fire time based on the rate of fire
+        //    nextFireTime = Time.time + rateOfFire;
+        //}
     }
+
+    //public bool CanFire()
+    //{
+    //    return Time.time >= nextFireTime;
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-            // destroy attack projectile
-            Destroy(gameObject);
-
-            // update the enemy's health
-            EnemyController enemyController = other.gameObject.GetComponent<EnemyController>();
-            if (enemyController != null)
+            if (isAOE)
             {
-                enemyController.UpdateHealth(damage);
+                // Get the collision point
+                Vector3 impactPosition = other.ClosestPointOnBounds(transform.position);
+
+                // Apply AOE effect
+                //ApplyAOEEffect(other.gameObject.transform.position, aoeRadius);
+                ApplyAOEEffect(impactPosition, aoeRadius);
             }
+            else
+            {
+                // Apply single target effect
+                ApplySingleTargetEffect(other.gameObject);
+            }
+
+            // destroy attack projectile
+            Destroy(gameObject, 0.1f);
+
         }
         else if (other.gameObject.tag == "Boundary")
         {
             // prevent endless projectiles from remaining in game
             Destroy(gameObject);
+        }
+    }
+
+    private void ApplyAOEEffect(Vector3 impactPosition, float aoeRadius)
+    {
+        // Find all colliders within the AOE radius
+        Collider[] colliders = Physics.OverlapSphere(impactPosition, aoeRadius);
+
+        // Instantiate the AOE visualizer prefab at the impact position
+        //GameObject aoeVisualizer = Instantiate(aoeVisualizerPrefab, impactPosition, Quaternion.identity);
+
+        //// Align the AOE visualizer with the ground
+        //RaycastHit hit;
+        //if (Physics.Raycast(impactPosition, Vector3.down, out hit))
+        //{
+        //    aoeVisualizer.transform.position = hit.point + Vector3.up * 0.1f;
+        //    aoeVisualizer.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+        //}
+
+        //// Set the radius of the AOE visualizer
+        //AOEVisualizerController aoeVisualizerController = aoeVisualizer.GetComponent<AOEVisualizerController>();
+        //if (aoeVisualizerController != null)
+        //{
+        //    aoeVisualizerController.SetRadius(aoeRadius);
+        //}
+
+        // Apply the AOE effect to enemies within the radius
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.tag == "Enemy")
+            {
+                ApplySingleTargetEffect(collider.gameObject);
+            }
+        }
+
+        // Destroy the AOE visualizer after the specified duration
+        //Destroy(aoeVisualizer, aoeVisualizerDuration);
+    }
+
+    private void ApplySingleTargetEffect(GameObject enemy)
+    {
+        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+        if (enemyController != null)
+        {
+            // Update the enemy's health
+            enemyController.UpdateHealth(damage);
+
+            // Update the enemy's speed if needed
+            if (slowingImpact > 0)
+            {
+                enemyController.SlowDown(slowingImpact, 2f);
+            }
         }
     }
 

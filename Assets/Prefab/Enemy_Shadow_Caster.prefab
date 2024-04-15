@@ -257,11 +257,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4cc8b48f9d5432f9273a50af88c84b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   maxHealth: 2
-  damage: 0
-  movementSpeed: 1
-  healthBar: {fileID: 0}
+  damageToPlayer: 20
+  originalSpeed: 1
+  normalHealthbarColor: {r: 0, g: 0, b: 0, a: 0}
+  frozenHealthbarColor: {r: 0, g: 0, b: 0, a: 0}
+  healthBar: {fileID: 5544912538320123224}
 --- !u!65 &-3663445856919457532
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -415,6 +416,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99fd248bea0c343ac82d6d749f2985b4, type: 3}
+--- !u!114 &5544912538320123224 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8748484140722111722, guid: 99fd248bea0c343ac82d6d749f2985b4, type: 3}
+  m_PrefabInstance: {fileID: 3862865180045046194}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff074f5769d94ce5b61db0338baac4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8289759530217432392 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5084708243491230970, guid: 99fd248bea0c343ac82d6d749f2985b4, type: 3}

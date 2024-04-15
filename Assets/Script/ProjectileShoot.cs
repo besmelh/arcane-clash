@@ -4,32 +4,67 @@ using UnityEngine;
 
 public class ProjectileShoot : MonoBehaviour
 {
-
     public GameObject attack_1;
     public GameObject attack_2;
     public GameObject attack_3;
 
+    public float rateOfFire1 = 0.5f; // Rate of fire for attack_1 in seconds
+    public float rateOfFire2 = 0.5f; // Rate of fire for attack_2 in seconds
+    public float rateOfFire3 = 0.5f; // Rate of fire for attack_3 in seconds
 
-    void Update()
+    private bool canFire1 = true; // Flag to control firing of attack_1
+    private bool canFire2 = true; // Flag to control firing of attack_2
+    private bool canFire3 = true; // Flag to control firing of attack_3
+
+    private IEnumerator FireRoutine1()
     {
-        if (Input.GetButtonDown("Fire1"))
+        while (true)
         {
-            // object, translation, rotation (no rotation)
-            Instantiate(attack_1, transform.position, attack_1.transform.rotation);
+            if (Input.GetButtonDown("Fire1") && canFire1)
+            {
+                Instantiate(attack_1, transform.position, attack_1.transform.rotation);
+                canFire1 = false;
+                yield return new WaitForSeconds(rateOfFire1);
+                canFire1 = true;
+            }
+            yield return null;
         }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            // object, translation, rotation (no rotation)
-            Instantiate(attack_2, transform.position, attack_2.transform.rotation);
-            //Instantiate(attack_2, transform.position, Quaternion.Euler(90f, 0f, 0f));
-            //Debug.Log("rot: " + attack_2.transform.rotation);
-            //Instantiate(attack_2, transform.position, Quaternion.identity);
-        }
-        if (Input.GetButtonDown("Fire3"))
-        {
-            // object, translation, rotation (no rotation)
-            Instantiate(attack_3, transform.position, Quaternion.identity);
-        }
+    }
 
+    private IEnumerator FireRoutine2()
+    {
+        while (true)
+        {
+            if (Input.GetButtonDown("Fire2") && canFire2)
+            {
+                Instantiate(attack_2, transform.position, attack_2.transform.rotation);
+                canFire2 = false;
+                yield return new WaitForSeconds(rateOfFire2);
+                canFire2 = true;
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator FireRoutine3()
+    {
+        while (true)
+        {
+            if (Input.GetButtonDown("Fire3") && canFire3)
+            {
+                Instantiate(attack_3, transform.position, Quaternion.identity);
+                canFire3 = false;
+                yield return new WaitForSeconds(rateOfFire3);
+                canFire3 = true;
+            }
+            yield return null;
+        }
+    }
+
+    private void Start()
+    {
+        StartCoroutine(FireRoutine1());
+        StartCoroutine(FireRoutine2());
+        StartCoroutine(FireRoutine3());
     }
 }
