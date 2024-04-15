@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dacddecec7884c309d49f55171b8b67, type: 3}
-  m_Name: Wave_01
+  m_Name: Wave_04
   m_EditorClassIdentifier: 
   <enemiesInWave>k__BackingField:
   - {fileID: 424242857987089125, guid: 450ad11e823c0480bb6dd65f3923b04f, type: 3}
-  <timeBeforerThisWave>k__BackingField: 0
-  <numberToSpawn>k__BackingField: 3
-  <scoreThresholdForNextWave>k__BackingField: 2
+  - {fileID: 8132331838061253541, guid: 4e1cd4cca430f44ddbe3f39ae684c3bc, type: 3}
+  <timeBeforerThisWave>k__BackingField: 0.8
+  <numberToSpawn>k__BackingField: 3.4992
+  <scoreThresholdForNextWave>k__BackingField: 10

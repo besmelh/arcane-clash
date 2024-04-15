@@ -756,23 +756,30 @@ MonoBehaviour:
   - {fileID: 9083629912408150663, guid: 022685c7cd07849bc9f61f03481d3d6c, type: 3}
   enemies:
   - spawnTime: 0
-    enemyType: 0
     spawner: 0
     randomSpawn: 0
     isSpawned: 0
+    enemyController: {fileID: 0}
+    enemyGameObject: {fileID: 0}
   - spawnTime: 2
-    enemyType: 1
     spawner: 1
     randomSpawn: 0
     isSpawned: 0
+    enemyController: {fileID: 0}
+    enemyGameObject: {fileID: 0}
   - spawnTime: 5
-    enemyType: 2
     spawner: 2
     randomSpawn: 0
     isSpawned: 0
+    enemyController: {fileID: 0}
+    enemyGameObject: {fileID: 0}
   waves:
   - {fileID: 11400000, guid: 11d0f81b2d71743c1a9e3f08e7449c6b, type: 2}
   - {fileID: 11400000, guid: aaaf553909bac4ae09d36559fe807dbb, type: 2}
+  - {fileID: 11400000, guid: 1fdf3391aa7674ab88d5d6a3a8ecae5a, type: 2}
+  - {fileID: 11400000, guid: e9e8f1fa07e0b4b44b3ced9d2be46ada, type: 2}
+  - {fileID: 11400000, guid: d06678bfc61cd4b71a5c3fe1f111b3d4, type: 2}
+  waveText: {fileID: 1076814634}
 --- !u!4 &781241555
 Transform:
   m_ObjectHideFlags: 0

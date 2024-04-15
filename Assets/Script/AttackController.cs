@@ -29,19 +29,8 @@ public class AttackController : MonoBehaviour
     {
         // move attack projectile
         transform.Translate(transform.forward * movementSpeed * Time.deltaTime);
-
-        // Check if the attack can be fired again
-        //if (Time.time >= nextFireTime)
-        //{
-        //    // Update the next fire time based on the rate of fire
-        //    nextFireTime = Time.time + rateOfFire;
-        //}
     }
 
-    //public bool CanFire()
-    //{
-    //    return Time.time >= nextFireTime;
-    //}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -53,7 +42,6 @@ public class AttackController : MonoBehaviour
                 Vector3 impactPosition = other.ClosestPointOnBounds(transform.position);
 
                 // Apply AOE effect
-                //ApplyAOEEffect(other.gameObject.transform.position, aoeRadius);
                 ApplyAOEEffect(impactPosition, aoeRadius);
             }
             else

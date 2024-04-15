@@ -7,10 +7,13 @@ using UnityEngine;
 public class Enemy
 {
     public int spawnTime;
-    public EnemyType enemyType;
+    //public EnemyType enemyType;
     public int spawner; //choose one of the 5 lanes
     public bool randomSpawn; //choose a random lane
     public bool isSpawned;
+    //public int scoreValue; // how much score it will add to player
+    public EnemyController enemyController; // Store a reference to the EnemyController component
+    public GameObject enemyGameObject;
 }
 
 public enum EnemyType

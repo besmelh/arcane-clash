@@ -7,7 +7,10 @@ using System;
 public class EnemyController : MonoBehaviour
 {
 
-    //public Vector3 finalDestination;
+
+    public EnemyType enemyType;
+    public int scoreValue; // how much score it will add to player
+
     private int health; // current health
     public int maxHealth; // max possible health
     public int damageToPlayer; // damage strength it causes to player
@@ -18,6 +21,7 @@ public class EnemyController : MonoBehaviour
     //private PointManager pointManager; //manages the HP points of the player
     private PlayerController playerController; //manages the HP points of the player
     [SerializeField] FloatingHealthBar healthBar;
+
 
     private void Awake()
     {
@@ -42,6 +46,21 @@ public class EnemyController : MonoBehaviour
         transform.Translate(Vector3.back * currentSpeed * Time.deltaTime);
     }
 
+    private void DestroyEnemy()
+    {
+        // Notify the EnemySpawner script about the enemy's destruction
+        EnemySpawner spawner = FindObjectOfType<EnemySpawner>();
+
+        if (spawner != null)
+        {
+            spawner.HandleEnemyDestruction(this);
+        }
+
+        // Destroy the enemy game object
+        Destroy(gameObject);
+    }
+
+
     public void UpdateHealth(int damage)
     {
         // reduce health
@@ -53,7 +72,8 @@ public class EnemyController : MonoBehaviour
         // delete if no health remaining
         if (health <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            DestroyEnemy();
         }
     }
 
@@ -85,45 +105,14 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.gameObject.tag == "Player")
-        //{
-        //    //update player HP - hitting player directly results in extra damage
-        //    //pointManager.UpdateScore(-25);
-        //}
-        //if (other.gameObject.tag == "Projectile")
-        //{
-        //    // destroy projectile
-        //    Destroy(other.gameObject);
-
-        //    // reduce health
-        //    health = health - 1;
-        //    healthBar.UpdateHealthBar(health, maxHealth);
-
-        //    // delete if no health remaining
-        //    if (health <= 0)
-        //    {
-        //        Destroy(gameObject);
-        //    }
-        //}
         if (other.gameObject.tag == "Boundary")
         {
             // prevent endless enemies from remaining in game
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            DestroyEnemy();
 
             //update player HP ones enemy reaches end of track
             playerController.UpdateHealth(-damageToPlayer);
         }
     }
-
-    //private void checkForDestructables()
-    //{
-    //    Collider[] colliders = Physics.OverlapSphere(transform.position, 4f);
-    //    foreach (Collider c in colliders)
-    //    {
-    //        if (c.GetComponent<Enemy>())
-    //        {
-
-    //        }
-    //    }
-    //}
 }
