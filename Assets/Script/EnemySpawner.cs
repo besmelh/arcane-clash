@@ -31,28 +31,6 @@ public class EnemySpawner : MonoBehaviour
         }
 
         StartCoroutine(SpawnWaveWithDelay());
-
-        //if (Time.time >= timeBetweenSpawns)
-        //{
-        //    StartCoroutine(SpawnWave());
-        //    IncrementWave();
-
-        //    timeBetweenSpawns = Time.time + currentWave.timeBeforerThisWave;
-        //}
-
-        //foreach (Enemy enemy in enemies)
-        //{
-        //    if (enemy.isSpawned == false && enemy.spawnTime <= Time.time)
-        //    {
-        //        if (enemy.randomSpawn)
-        //        {
-        //            enemy.spawner = Random.Range(0, transform.childCount);
-        //        }
-        //        // Instantiate the chosen enemy type, at the chosen spawn location
-        //        GameObject enemyInstance = Instantiate(enemiesPrefabs[(int)enemy.enemyType], transform.GetChild(enemy.spawner).transform);
-        //        enemy.isSpawned = true;
-        //    }
-        //}
     }
 
 
@@ -61,9 +39,7 @@ public class EnemySpawner : MonoBehaviour
         isSpawningWave = true;
 
         yield return StartCoroutine(SpawnWave());
-
-        yield return new WaitForSeconds(2f); // Wait for 2 seconds before starting the next wave
-
+        yield return new WaitForSeconds(2f); // Wait for 2 seconds before starting the next wav
         IncrementWave();
 
         isSpawningWave = false;
@@ -78,8 +54,7 @@ public class EnemySpawner : MonoBehaviour
             int randSpawnPoint = Random.Range(0, transform.childCount);
             Instantiate(randEnemy, transform.GetChild(randSpawnPoint).transform);
 
-            // Wait for 1 second before spawning the next enemy
-            yield return new WaitForSeconds(1f); 
+            yield return new WaitForSeconds(1f); // Wait for 1 second before spawning the next enemy
         }
     }
 

@@ -32,29 +32,44 @@ public class EnemyController : MonoBehaviour
         transform.Translate(Vector3.back * movementSpeed * Time.deltaTime);
     }
 
+    public void UpdateHealth(int damage)
+    {
+        // reduce health
+        health = health - damage;
+
+        // update health bar
+        healthBar.UpdateHealthBar(health, maxHealth);
+
+        // delete if no health remaining
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
-        {
-            //update player HP - hitting player directly results in extra damage
-            //pointManager.UpdateScore(-25);
-        }
-        if (other.gameObject.tag == "Projectile")
-        {
-            // destroy projectile
-            Destroy(other.gameObject);
+        //if (other.gameObject.tag == "Player")
+        //{
+        //    //update player HP - hitting player directly results in extra damage
+        //    //pointManager.UpdateScore(-25);
+        //}
+        //if (other.gameObject.tag == "Projectile")
+        //{
+        //    // destroy projectile
+        //    Destroy(other.gameObject);
 
-            // reduce health
-            health = health - 10;
-            healthBar.UpdateHealthBar(health, maxHealth);
+        //    // reduce health
+        //    health = health - 1;
+        //    healthBar.UpdateHealthBar(health, maxHealth);
 
-            // delete if no health remaining
-            if (health <= 0)
-            {
-                Destroy(gameObject);
-            }
-        }
-        else if (other.gameObject.tag == "Boundary")
+        //    // delete if no health remaining
+        //    if (health <= 0)
+        //    {
+        //        Destroy(gameObject);
+        //    }
+        //}
+        if (other.gameObject.tag == "Boundary")
         {
             // prevent endless enemies from remaining in game
             Destroy(gameObject);
@@ -63,4 +78,16 @@ public class EnemyController : MonoBehaviour
             pointManager.UpdateScore(-25);
         }
     }
+
+    //private void checkForDestructables()
+    //{
+    //    Collider[] colliders = Physics.OverlapSphere(transform.position, 4f);
+    //    foreach (Collider c in colliders)
+    //    {
+    //        if (c.GetComponent<Enemy>())
+    //        {
+
+    //        }
+    //    }
+    //}
 }

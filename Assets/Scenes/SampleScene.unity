@@ -368,7 +368,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d61113feeba44af78fb344ed44192f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3015188278087325612, guid: 24b73087b0c304054beef2880d2b7fd8, type: 3}
+  attack_1: {fileID: 3015188278087325612, guid: 24b73087b0c304054beef2880d2b7fd8, type: 3}
+  attack_2: {fileID: 2046955503899658241, guid: c36f12438973b4cd88bee333e994e4a0, type: 3}
+  attack_3: {fileID: 3015188278087325612, guid: 24b73087b0c304054beef2880d2b7fd8, type: 3}
 --- !u!1001 &599021991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -663,18 +665,21 @@ MonoBehaviour:
   - spawnTime: 0
     enemyType: 0
     spawner: 0
-    randomSpawner: 0
+    randomSpawn: 0
     isSpawned: 0
   - spawnTime: 2
     enemyType: 1
     spawner: 1
-    randomSpawner: 0
+    randomSpawn: 0
     isSpawned: 0
   - spawnTime: 5
     enemyType: 2
     spawner: 2
-    randomSpawner: 0
+    randomSpawn: 0
     isSpawned: 0
+  waves:
+  - {fileID: 11400000, guid: 11d0f81b2d71743c1a9e3f08e7449c6b, type: 2}
+  - {fileID: 11400000, guid: aaaf553909bac4ae09d36559fe807dbb, type: 2}
 --- !u!4 &781241555
 Transform:
   m_ObjectHideFlags: 0
@@ -1070,13 +1075,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4221806, y: -0, z: -0, w: 0.9065118}
+  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
   m_LocalPosition: {x: 0, y: 6.72, z: -5.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 49.945, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
 --- !u!1 &1141227542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,7 +1157,7 @@ Transform:
   m_GameObject: {fileID: 1141227542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.04, y: 1.4553726, z: -4.89}
+  m_LocalPosition: {x: -0.04, y: 1.4553726, z: -7.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1466,8 +1471,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1, z: 1.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.67, y: 1.1133333, z: 1.6700001}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
