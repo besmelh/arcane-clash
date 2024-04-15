@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
     private Wave currentWave;
     private int currentWaveIndex;
     public TextMeshProUGUI waveText;
+    public TextMeshProUGUI scoreText;
 
 
     private float timeBetweenSpawns;
@@ -38,11 +39,17 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnWaveWithDelay());
 
 
-        // Update the wave text UI
+        // Update text UI
         if (waveText != null)
         {
             waveText.text = $"Wave {currentWaveIndex + 1}";
         }
+
+        if (scoreText != null)
+        {
+            scoreText.text = $"Score: {playerScore}";
+        }
+
     }
 
     private void Update()
@@ -57,6 +64,10 @@ public class EnemySpawner : MonoBehaviour
             {
                 int scoreValue = defeatedEnemy.enemyController.scoreValue;
                 playerScore += scoreValue;
+                if (scoreText != null)
+                {
+                    scoreText.text = $"Score: {playerScore}";
+                }
                 enemies.Remove(defeatedEnemy);
             }
         }
@@ -133,7 +144,7 @@ public class EnemySpawner : MonoBehaviour
             // Update the wave text UI
             if (waveText != null)
             {
-                waveText.text = $"Wave {currentWaveIndex + 1}";
+                waveText.text = $"Wave:  {currentWaveIndex + 1}";
             }
 
             // update wave difficulty based on player progress
@@ -169,7 +180,11 @@ public class EnemySpawner : MonoBehaviour
         {
             // Update the player's score based on the enemy's scoreValue
             playerScore += enemy.enemyController.scoreValue;
-            Debug.Log("playerScore:" + playerScore);
+            if (scoreText != null)
+            {
+                scoreText.text = $"Score: {playerScore}";
+            }
+
             // Remove the enemy from the enemies list
             enemies.Remove(enemy);
         }
