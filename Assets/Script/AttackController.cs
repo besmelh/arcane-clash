@@ -48,6 +48,9 @@ public class AttackController : MonoBehaviour
             // destroy attack projectile
             //Destroy(gameObject, 0.1f);
 
+            // Deactivate the attack object
+            gameObject.SetActive(false);
+
             // Return the attack projectile to the object pool
             ObjectPool.Instance.ReturnObjectToPool(gameObject.tag, gameObject);
 
@@ -56,6 +59,9 @@ public class AttackController : MonoBehaviour
         {
             // prevent endless projectiles from remaining in game
             //Destroy(gameObject);
+
+            // Deactivate the attack object
+            gameObject.SetActive(false);
 
             // Return the attack projectile to the object pool
             ObjectPool.Instance.ReturnObjectToPool(gameObject.tag, gameObject);
