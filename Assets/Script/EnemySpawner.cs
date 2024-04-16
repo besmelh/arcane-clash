@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
 
     private float timeBetweenSpawns;
     private bool stopSpawning = false;
-    private bool isSpawningWave = false; //prevent waves from overlapping
+    //private bool isSpawningWave = false; //prevent waves from overlapping
     private float playerScore = 0f;
     private int previousSpawnPoint = -1;
 
@@ -35,8 +35,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        //enemySpawner is deactivated at the start of the game
+        //only activated when start button is clicked
+        //gameObject.SetActive(false);
+
         enemies.Clear();
-        StartCoroutine(SpawnWaveWithDelay());
+
+        //StartCoroutine(SpawnWaveWithDelay());
 
 
         // Update text UI
@@ -71,12 +76,13 @@ public class EnemySpawner : MonoBehaviour
                 enemies.Remove(defeatedEnemy);
             }
         }
+
     }
 
 
-    private IEnumerator SpawnWaveWithDelay()
+    public IEnumerator SpawnWaveWithDelay()
     {
-        isSpawningWave = true;
+        //isSpawningWave = true;
 
         while (!stopSpawning)
         {
@@ -96,7 +102,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        isSpawningWave = false;
+        //isSpawningWave = false;
     }
 
     private IEnumerator SpawnWave()

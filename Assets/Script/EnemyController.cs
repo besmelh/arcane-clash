@@ -18,8 +18,6 @@ public class EnemyController : MonoBehaviour
     public Color normalHealthbarColor;
     public Color frozenHealthbarColor;
     private float currentSpeed; // speed at which it moves currently
-    //private PointManager pointManager; //manages the HP points of the player
-    private PlayerController playerController; //manages the HP points of the player
     [SerializeField] FloatingHealthBar healthBar;
 
 
@@ -38,7 +36,11 @@ public class EnemyController : MonoBehaviour
         health = maxHealth;
         healthBar.UpdateHealthBar(health, maxHealth);
         healthBar.ChangeHealthBarColor(normalHealthbarColor);
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.OnPlayerDeath += HandlePlayerDeath;
+        }
+
     }
 
     void Update()
@@ -112,7 +114,22 @@ public class EnemyController : MonoBehaviour
             DestroyEnemy();
 
             //update player HP ones enemy reaches end of track
-            playerController.UpdateHealth(-damageToPlayer);
+            PlayerController.instance.UpdateHealth(-damageToPlayer);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.OnPlayerDeath -= HandlePlayerDeath;
+        }
+    }
+
+    private void HandlePlayerDeath()
+    {
+        // stop moving or disable the enemy
+        currentSpeed = 0f;
+        enabled = false;
     }
 }

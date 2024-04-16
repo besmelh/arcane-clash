@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
+    public event Action OnPlayerDeath;
+    public static PlayerController instance;
 
     private int health;
     public int maxHealth;
@@ -12,11 +15,24 @@ public class PlayerController : MonoBehaviour
     private float horInput;
     [SerializeField] FloatingHealthBar healthBar;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
         health = maxHealth;
         healthBar.UpdateHealthBar(health, maxHealth);
+
+
     }
 
     // Update is called once per frame
@@ -37,7 +53,12 @@ public class PlayerController : MonoBehaviour
         // end game if health 0
         if (health <= 0)
         {
-            Destroy(gameObject);
+            // Player has died
+            OnPlayerDeath?.Invoke();
+            // Disable or destroy the player GameObject
+            gameObject.SetActive(false);
+            // or
+            // Destroy(gameObject);
         }
     }
 }
