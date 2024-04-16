@@ -35,13 +35,16 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        //enemySpawner is deactivated at the start of the game
-        //only activated when start button is clicked
-        //gameObject.SetActive(false);
 
         enemies.Clear();
 
-        //StartCoroutine(SpawnWaveWithDelay());
+
+        // Create object pools for enemies
+        foreach (GameObject enemyPrefab in enemiesPrefabs)
+        {
+            string enemyType = enemyPrefab.GetComponent<EnemyController>().enemyType.ToString();
+            ObjectPool.Instance.CreatePool(enemyType, enemyPrefab, 10);
+        }
 
 
         // Update text UI
@@ -109,26 +112,35 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < currentWave.numberToSpawn; i++)
         {
-            GameObject randEnemy = currentWave.enemiesInWave[Random.Range(0, currentWave.enemiesInWave.Length)];
+            GameObject enemyPrefab = currentWave.enemiesInWave[Random.Range(0, currentWave.enemiesInWave.Length)];
             int randSpawnPoint = Random.Range(0, transform.childCount);
 
-            // make sure no two consecutive enemies are spawned in same track
+            // Make sure no two consecutive enemies are spawned in the same track
             do
             {
                 randSpawnPoint = Random.Range(0, transform.childCount);
             } while (randSpawnPoint == previousSpawnPoint && transform.childCount > 1);
 
-            GameObject spawnedEnemy = Instantiate(randEnemy, transform.GetChild(randSpawnPoint).transform);
-            EnemyController enemyController = spawnedEnemy.GetComponent<EnemyController>();
-            enemies.Add(new Enemy
+            string enemyType = enemyPrefab.GetComponent<EnemyController>().enemyType.ToString();
+
+            // Get the enemy from the object pool
+            GameObject spawnedEnemy = ObjectPool.Instance.GetObjectFromPool(enemyType);
+
+            if (spawnedEnemy != null)
             {
-                enemyGameObject = spawnedEnemy,
-                enemyController = enemyController
-            });
+                spawnedEnemy.transform.SetParent(transform.GetChild(randSpawnPoint));
+                spawnedEnemy.transform.localPosition = Vector3.zero;
+                EnemyController enemyController = spawnedEnemy.GetComponent<EnemyController>();
+                enemies.Add(new Enemy
+                {
+                    enemyGameObject = spawnedEnemy,
+                    enemyController = enemyController
+                });
+            }
 
             previousSpawnPoint = randSpawnPoint;
 
-            //wait a bit between enemies
+            // Wait a bit between enemies
             float randWait = Random.Range(0.5f, 1.5f);
             yield return new WaitForSeconds(randWait);
         }

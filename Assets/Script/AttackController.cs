@@ -19,11 +19,6 @@ public class AttackController : MonoBehaviour
     //public float aoeVisualizerDuration = 0.5f; // Duration for which the AOE visualizer remains visible
 
 
-    void Start()
-    {
-        //nextFireTime = 0f;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -51,13 +46,19 @@ public class AttackController : MonoBehaviour
             }
 
             // destroy attack projectile
-            Destroy(gameObject, 0.1f);
+            //Destroy(gameObject, 0.1f);
+
+            // Return the attack projectile to the object pool
+            ObjectPool.Instance.ReturnObjectToPool(gameObject.tag, gameObject);
 
         }
         else if (other.gameObject.tag == "Boundary")
         {
             // prevent endless projectiles from remaining in game
-            Destroy(gameObject);
+            //Destroy(gameObject);
+
+            // Return the attack projectile to the object pool
+            ObjectPool.Instance.ReturnObjectToPool(gameObject.tag, gameObject);
         }
     }
 

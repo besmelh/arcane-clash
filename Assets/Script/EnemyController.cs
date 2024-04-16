@@ -36,6 +36,13 @@ public class EnemyController : MonoBehaviour
         health = maxHealth;
         healthBar.UpdateHealthBar(health, maxHealth);
         healthBar.ChangeHealthBarColor(normalHealthbarColor);
+
+        // Assign the enemyType if it's not already set
+        if (enemyType == EnemyType.None)
+        {
+            enemyType = DetermineEnemyType();
+        }
+
         if (PlayerController.instance != null)
         {
             PlayerController.instance.OnPlayerDeath += HandlePlayerDeath;
@@ -58,10 +65,32 @@ public class EnemyController : MonoBehaviour
             spawner.HandleEnemyDestruction(this);
         }
 
+        // Return the enemy to the object pool
+        string enemyTypeString = enemyType.ToString();
+        ObjectPool.Instance.ReturnObjectToPool(enemyTypeString, gameObject);
+
         // Destroy the enemy game object
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
+    private EnemyType DetermineEnemyType()
+    {
+        // Determine the enemy type based on the game object's name or other criteria
+        if (gameObject.name.Contains("Enemy_Elemental"))
+        {
+            return EnemyType.Enemy_Elemental;
+        }
+        else if (gameObject.name.Contains("Enemy_Arcane_Fiend"))
+        {
+            return EnemyType.Enemy_Arcane_Fiend;
+        }
+        else if (gameObject.name.Contains("Enemy_Shadow_Caster"))
+        {
+            return EnemyType.Enemy_Shadow_Caster;
+        }
+        // Default to a specific enemy type if no condition is met
+        return EnemyType.Enemy_Elemental;
+    }
 
     public void UpdateHealth(int damage)
     {

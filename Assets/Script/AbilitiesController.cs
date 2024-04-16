@@ -28,6 +28,14 @@ public class AbilitiesController : MonoBehaviour
         {
             canFire[i] = true;
         }
+
+        // Create object pools for attack projectiles
+        if (ObjectPool.Instance != null)
+        {
+            ObjectPool.Instance.CreatePool("Attack1", attack_1, 10);
+            ObjectPool.Instance.CreatePool("Attack2", attack_2, 10);
+            ObjectPool.Instance.CreatePool("Attack3", attack_3, 10);
+        }
     }
 
     private void Update()
@@ -72,6 +80,7 @@ public class AbilitiesController : MonoBehaviour
 
     private void FireAttack()
     {
+        string attackTag = $"Attack{activeAttackIndex + 1}";
         GameObject attackPrefab;
         float rateOfFire;
         switch (activeAttackIndex)
@@ -90,6 +99,15 @@ public class AbilitiesController : MonoBehaviour
                 break;
             default:
                 return;
+        }
+
+        // Get the attack projectile from the object pool
+        GameObject attackProjectile = ObjectPool.Instance.GetObjectFromPool(attackTag);
+
+        if (attackProjectile != null)
+        {
+            attackProjectile.transform.position = transform.position;
+            attackProjectile.transform.rotation = attackPrefab.transform.rotation;
         }
 
         Instantiate(attackPrefab, transform.position, attackPrefab.transform.rotation);

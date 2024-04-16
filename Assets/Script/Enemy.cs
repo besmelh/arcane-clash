@@ -18,6 +18,7 @@ public class Enemy
 
 public enum EnemyType
 {
+    None,
     Enemy_Elemental,
     Enemy_Arcane_Fiend,
     Enemy_Shadow_Caster
